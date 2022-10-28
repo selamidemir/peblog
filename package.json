@@ -1,0 +1,37 @@
+{
+  "name": "peblog",
+  "version": "0.0.1",
+  "description": "Persolan photo blog",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/selamidemir/peblog.git"
+  },
+  "keywords": [
+    "photo",
+    "blog",
+    "photo",
+    "blog",
+    "expressjs",
+    "express",
+    "js",
+    "express"
+  ],
+  "author": "Selami Demir",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/selamidemir/peblog/issues"
+  },
+  "homepage": "https://github.com/selamidemir/peblog#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
