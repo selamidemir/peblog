@@ -13,6 +13,10 @@ exports.createPhoto((req, res) => {
     
 })
 
-exports.updatePhoto((req, res) => {
+exports.updatePhotoById((req, res) => {
     
+})
+
+exports.deletePhotoById((req, res) => {
+
 })

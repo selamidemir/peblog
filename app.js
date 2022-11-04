@@ -4,6 +4,10 @@ const mongoose = require("mongoose");
 
 /*****  Routes ******/
 const pageRoutes = require("./routes/pageRoutes");
+const photoRoutes = require("./routes/photoRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
+const tagRoutes = require("./controllers/tagControllers");
+const userRoutes = require("./controllers/userControllers");
 
 dotenv.config();
 
@@ -25,6 +29,10 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 // app.get("/", (req, res) => res.render("index"));
-app.use('/', pageRoutes);
+app.use("/", pageRoutes);
+app.use("/categories", categoryRoutes);
+app.use("/photos", photoRoutes);
+app.use("/tags", tagRoutes);
+app.use("/users", userRoutes);
 
 app.listen(port, () => console.log("Uygulama ayağa kalktı."));
