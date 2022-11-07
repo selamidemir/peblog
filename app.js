@@ -6,8 +6,8 @@ const mongoose = require("mongoose");
 const pageRoutes = require("./routes/pageRoutes");
 const photoRoutes = require("./routes/photoRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
-const tagRoutes = require("./controllers/tagControllers");
-const userRoutes = require("./controllers/userControllers");
+const tagRoutes = require("./routes/tagRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 dotenv.config();
 
@@ -23,7 +23,8 @@ mongoose
 
 /***** Template Engine *****/
 app.set("view engine", "ejs");
-// app.set('views', './views');
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 /***** Middleware  *****/
 app.use(express.static("public"));
