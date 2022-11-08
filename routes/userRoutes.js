@@ -5,7 +5,7 @@ const User = require("../models/User");
 const userControllers = require("../controllers/userControllers");
 const router = express.Router();
 
-router.route("/").get(userControllers.getUsers);
+// router.route("/").get(userControllers.getUsers);
 router.route("/:id").get(userControllers.getUserById);
 router.route("/").post(
   [
@@ -21,7 +21,10 @@ router.route("/").post(
         if (user) throw new Error("This email has already been used.");
         return true;
       }),
-    body("username").not().isEmpty().withMessage("The user name can not be empty"),
+    body("username")
+      .not()
+      .isEmpty()
+      .withMessage("The user name can not be empty"),
     body("password")
       .not()
       .isEmpty()
@@ -49,7 +52,7 @@ router.route("/").post(
   userControllers.createUser
 );
 router.route("/:d").put(userControllers.updateUserById);
-router.route("/:id").delete(userControllers.deleteUserById);
-router.route("/:id").get(userControllers.activateUserById);
+// router.route("/:id").delete(userControllers.deleteUserById);
+// router.route("/:id").get(userControllers.activateUserById);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const methodOverride = require('method-override');
 
 /*****  Routes ******/
 const pageRoutes = require("./routes/pageRoutes");
@@ -28,6 +29,9 @@ app.use(express.json());
 
 /***** Middleware  *****/
 app.use(express.static("public"));
+app.use(methodOverride('_method', {
+  methods: ['POST', 'GET']
+}));
 
 // app.get("/", (req, res) => res.render("index"));
 app.use("/", pageRoutes);
