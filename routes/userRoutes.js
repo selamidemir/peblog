@@ -2,11 +2,11 @@ const express = require("express");
 const { body } = require("express-validator");
 const UserRoles = require("../assets/userRoles");
 const User = require("../models/User");
-const userControllers = require("../controllers/userControllers");
+const userController = require("../controllers/authController");
 const router = express.Router();
 
-// router.route("/").get(userControllers.getUsers);
-router.route("/:id").get(userControllers.getUserById);
+// router.route("/").get(userController.getUsers);
+router.route("/:id").get(userController.getUserById);
 router.route("/").post(
   [
     body("name").not().isEmpty().withMessage("Please enter your name."),
@@ -49,10 +49,12 @@ router.route("/").post(
         return true;
       }),
   ],
-  userControllers.createUser
+  userController.createUser
 );
-router.route("/:d").put(userControllers.updateUserById);
-// router.route("/:id").delete(userControllers.deleteUserById);
-// router.route("/:id").get(userControllers.activateUserById);
+router.route("/:d").put(userController.updateUserById);
+// router.route("/:id").delete(userController.deleteUserById);
+// router.route("/:id").get(userController.activateUserById);
+
+router.route("/logout").get(userController.logoutUser);
 
 module.exports = router;

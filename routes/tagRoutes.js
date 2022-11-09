@@ -1,12 +1,12 @@
 const express = require("express");
 const { body } = require("express-validator");
 
-const tagControllers = require("../controllers/tagControllers");
+const tagController = require("../controllers/tagController");
 
 const router = express.Router();
 
-router.route("/").get(tagControllers.getTags);
-router.route("/:id").get(tagControllers.getTagById);
+router.route("/").get(tagController.getTags);
+router.route("/:id").get(tagController.getTagById);
 router
   .route("/")
   .post(
@@ -16,9 +16,9 @@ router
         .not()
         .isEmpty()
         .withMessage("Enter tag name please")],
-    tagControllers.createTag
+    tagController.createTag
   );
-router.route("/:id").put(tagControllers.updateTagById);
-router.route("/:id").delete(tagControllers.deleteTagById);
+router.route("/:id").put(tagController.updateTagById);
+router.route("/:id").delete(tagController.deleteTagById);
 
 module.exports = router;

@@ -14,6 +14,10 @@ const UserSchema = Schema({
     require: true,
     trim: true,
   },
+  password: {
+    type: String,
+    requre: true,
+  },
   userName: {
     type: String,
     require: true,
@@ -37,12 +41,13 @@ UserSchema.pre("validate", function (next) {
 
 UserSchema.pre("save", function (next) {
   const user = this;
-  if (user.isModified()) {
+  if (user.isModified("password")) {
     bcrypt.hash(user.password, 10, (err, hash) => {
-      if (!err) user.password = hash;
+      if (err) return next(err);
+      user.password = hash;
+      next();
     });
-  }
-  next();
+  } else next();
 });
 
 const User = mongoose.model("User", UserSchema);

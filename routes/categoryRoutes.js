@@ -1,12 +1,12 @@
 const express = require("express");
 const { body } = require("express-validator");
-const categoryControllers = require("../controllers/categoryControllers");
+const categoryController = require("../controllers/categoryController");
 const Category = require("../models/Category");
 
 const router = express.Router();
 
-router.route("/").get(categoryControllers.getCategories);
-router.route("/:id").get(categoryControllers.getCategoryById);
+router.route("/").get(categoryController.getCategories);
+router.route("/:id").get(categoryController.getCategoryById);
 router.route("/").post(
   [
     body("name")
@@ -20,7 +20,7 @@ router.route("/").post(
         return true;
       }),
   ],
-  categoryControllers.createCategory
+  categoryController.createCategory
 );
 router.route("/:id").put(
   [
@@ -35,9 +35,9 @@ router.route("/:id").put(
         return true;
       }),
   ],
-  categoryControllers.updateCategoryById
+  categoryController.updateCategoryById
 );
 
-router.route("/id").delete(categoryControllers.deleteCategoryById);
+router.route("/id").delete(categoryController.deleteCategoryById);
 
 module.exports = router;
