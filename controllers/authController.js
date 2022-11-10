@@ -30,4 +30,4 @@ exports.updateUserById = (req, res) => {};
 
 exports.deleteUserById = (req, res) => {};
 
-exports.logoutUser = (req, res) => {};
+

@@ -21,7 +21,7 @@ exports.getServicesPage = (req, res) => {
 
 exports.getLoginForm = (req, res) => {
   if (req.session.userID) res.status(200).redirect("/");
-  else res.status(200).render("login", { pageName: "loginForm" });
+  else res.status(200).render("login", { pageName: "loginForm", error: "" });
 };
 
 exports.loginUser = async (req, res) => {
@@ -43,4 +43,9 @@ exports.loginUser = async (req, res) => {
     const error = "User name or password are wrong";
     res.status(400).render("login", { pageName: "loginForm", error });
   }
+};
+
+exports.logoutUser = (req, res) => {
+  req.session.userID = null;
+  res.status(200).redirect("/")
 };

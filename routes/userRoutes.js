@@ -55,6 +55,4 @@ router.route("/:d").put(userController.updateUserById);
 // router.route("/:id").delete(userController.deleteUserById);
 // router.route("/:id").get(userController.activateUserById);
 
-router.route("/logout").get(userController.logoutUser);
-
 module.exports = router;

@@ -42,7 +42,7 @@ include('./partials/page_header.ejs') %>
                 </div>
                 
                 <div class="my-3">
-                  <div class="error-message"><%= error %></div>
+                  <div class="error-message"><% if(error) error %></div>
                 </div>
                 <div class="text-center">
                   <button class="cta-btn" type="submit">Login</button>

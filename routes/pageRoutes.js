@@ -8,5 +8,6 @@ router.route("/contact").get(pageController.getContactPage);
 router.route("/services").get(pageController.getServicesPage);
 router.route("/login").get(pageController.getLoginForm);
 router.route("/login").post(pageController.loginUser);
+router.route("/logout").get(pageController.logoutUser);
 
 module.exports = router;
