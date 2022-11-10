@@ -20,19 +20,20 @@ exports.getServicesPage = (req, res) => {
 };
 
 exports.getLoginForm = (req, res) => {
-  res.status(200).render("login", { pageName: "loginForm" });
+  if (req.session.userID) res.status(200).redirect("/");
+  else res.status(200).render("login", { pageName: "loginForm" });
 };
 
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (req.session.userID)
-    res.status(200).render("index", { pageName: "home", user });
+  if (req.session.userID && user._id === req.session.userID)
+    res.status(200).redirect("/");
   if (user && user._id) {
     bcrypt.compare(password, user.password, (err, result) => {
       if (result) {
         req.session.userID = user._id;
-        res.status(200).render("index", { pageName: "home", user });
+        res.status(200).redirect("/");
       } else {
         const error = "User name or password are wrong";
         res.status(400).render("login", { pageName: "loginForm", error });
