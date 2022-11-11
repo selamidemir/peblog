@@ -1,0 +1,21 @@
+<%- include('../partials/page_top.ejs') %> <%-
+include('../partials/page_header.ejs') %>
+
+  <main id="main">
+
+    <section class="sample-page panel">
+      <div class="container" data-aos="fade-up">
+
+        <p>
+          <% tags.forEach(tag => { %>
+            <p><%= tag.name %></p>
+          <% }) %>
+        </p>
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <%- include('../partials/page_footer.ejs') %> <%-
+  include('../partials/page_bottom.ejs') %>

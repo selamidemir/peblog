@@ -12,6 +12,8 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const tagRoutes = require("./routes/tagRoutes");
 const userRoutes = require("./routes/userRoutes");
 
+const adminRoutes = require("./routes/adminRoutes");
+
 dotenv.config();
 
 const port = process.env.PORT || 5000;
@@ -44,6 +46,11 @@ app.use(
     }),
   })
 );
+// middleware to make 'user' available to all templates
+app.use(function(req, res, next) {
+  res.locals.user = req.session.userID;
+  next();
+});
 
 app.use(express.static("public"));
 app.use(methodOverride('_method', {
@@ -63,6 +70,8 @@ app.use("/categories", categoryRoutes);
 app.use("/photos", photoRoutes);
 app.use("/tags", tagRoutes);
 app.use("/users", userRoutes);
+
+app.use("/admin", adminRoutes);
 
 /***** Portu dinlemeye başla  *****/
 app.listen(port, () => console.log("Uygulama ayağa kalktı."));
