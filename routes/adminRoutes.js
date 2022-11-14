@@ -8,6 +8,7 @@ router.route("/photos").get(adminController.listPhotos);
 
 /***** Categories *****/
 router.route("/categories").get(adminController.listCategories);
+router.route("/categories/edit/:slug").get(adminController.editCategory);
 
 /***** Tags *****/
 router.route("/tags").get(adminController.listTags);

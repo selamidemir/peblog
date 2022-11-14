@@ -21,7 +21,20 @@ include('../partials/page_header.ejs') %>
 <script>
   const data = JSON.parse('<%- categories %>');
   new gridjs.Grid({
-    columns: ["Category", "Photos", "Edit","Delete"],
+    columns: [
+      "Category", 
+      {
+        name: "Photos",
+        formatter: (cell) => gridjs.html(`<a href="/admin/photos?category=${cell}">Photos</a>`),
+      }, 
+      {
+        name: "Edit",
+        formatter: (cell) => gridjs.html(`<a href="/admin/categories/edit/${cell}">Edit</a>`),
+      },
+      {
+        name: "Delete",
+        formatter: (cell) => gridjs.html(`<a href="/admin/categories/delete/${cell}">Delete</a>`),
+      }],
     data: data,
   }).render(document.getElementById("wrapper"));
 </script>
