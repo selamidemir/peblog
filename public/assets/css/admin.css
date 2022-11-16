@@ -1,0 +1,11 @@
+.apanel {
+    width: 100%;
+}
+
+.category-form {
+    width: 50%;
+}
+
+#category-edit-form #description {
+    height: 553px;
+}

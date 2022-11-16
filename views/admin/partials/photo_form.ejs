@@ -1,0 +1,43 @@
+<form <% if(photo) { %>
+  action="/admin/photos/<%= photo.slug %>?_method=PUT" <% } %> <% if (!photo) {
+  %> action="/admin/photos" <% } %> method="POST" id="photo-edit-form" >
+  <div class="mb-3">
+    <label for="name" class="form-label">Title</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      value="<% if(photo) { %> <%= photo.title %> <% } %>"
+    />
+    <div id="nameHelp" class="form-text">Enter the photo title.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea
+      type="text"
+      class="form-control"
+      id="description"
+      name="description"
+      class="category-description"
+    >
+<% if(photo) {%> <%= photo.description %> <% }%></textarea
+    >
+    <div id="descpritionHelp" class="form-text">
+      Enter the photo description.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="categories" class="form-label">Categories</label>
+    <select class="form-select" multiple aria-label="multiple select" name="categories" id="categories">
+      <option selected>Open this select menu</option>
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>

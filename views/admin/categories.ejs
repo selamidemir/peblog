@@ -2,11 +2,22 @@
 include('../partials/page_header.ejs') %>
 
 <main id="main" data-aos="fade" data-aos-delay="1500">
+  <!-- ======= End Page Header ======= -->
+  <div class="page-header d-flex align-items-center">
+    <div class="container position-relative">
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-6 text-center">
+          <h2>Categories (<a href="/admin/categories/add">Add</a>)</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Page Header -->
 
   <!-- ======= About Section ======= -->
-  <section id="about" class="about mt-5">
-    <div class="container pt-5">
-      <div class="row gy-4 justify-content-center mt-5">
+  <section id="about" class="about">
+    <div class="container">
+      <div class="row gy-4 justify-content-center">
         <div class="col">
           <div id="wrapper"></div>
         </div>
@@ -14,27 +25,32 @@ include('../partials/page_header.ejs') %>
     </div>
   </section>
   <!-- End About Section -->
-
 </main>
 <!-- End #main -->
 
 <script>
-  const data = JSON.parse('<%- categories %>');
+  const data = JSON.parse(`<%- categories %>`);
   new gridjs.Grid({
     columns: [
-      "Category", 
+      "Category",
       {
         name: "Photos",
-        formatter: (cell) => gridjs.html(`<a href="/admin/photos?category=${cell}">Photos</a>`),
-      }, 
+        formatter: (cell) =>
+          gridjs.html(`<a href="/admin/photos?category=${cell}">Photos</a>`),
+      },
       {
         name: "Edit",
-        formatter: (cell) => gridjs.html(`<a href="/admin/categories/edit/${cell}">Edit</a>`),
+        formatter: (cell) =>
+          gridjs.html(`<a href="/admin/categories/edit/${cell}">Edit</a>`),
       },
       {
         name: "Delete",
-        formatter: (cell) => gridjs.html(`<a href="/admin/categories/delete/${cell}">Delete</a>`),
-      }],
+        formatter: (cell) =>
+          gridjs.html(
+            `<a href="/admin/categories/${cell}?_method=DELETE" onClick="return confirm('Are you sure?')">Delete</a>`
+          ),
+      },
+    ],
     data: data,
   }).render(document.getElementById("wrapper"));
 </script>
