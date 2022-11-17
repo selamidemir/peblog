@@ -19,15 +19,16 @@ exports.listPhotos = async (req, res) => {
 exports.addPhotoForm = async (req, res) => {
   try {
     const categories = await Category.find({});
-    const tags = await Tag
+    res.status(200).render("admin/photo_add", { 
+      pageName: "admin-photo-add",
+      photo: null,
+      categories,
+      error: null
+    });
   } catch (err) {
-
+    res.status(400).redirect("/admin/photos");
   }
-  res.status(200).render("admin/photo_add", { 
-    pageName: "admin-photo-add",
-    photo: null,
-    error: null
-  });
+
 }
 
 

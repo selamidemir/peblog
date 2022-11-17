@@ -22,7 +22,7 @@
       name="description"
       class="category-description"
     >
-<% if(photo) {%> <%= photo.description %> <% }%></textarea
+      <% if(photo) {%> <%= photo.description %> <% }%></textarea
     >
     <div id="descpritionHelp" class="form-text">
       Enter the photo description.
@@ -31,12 +31,31 @@
 
   <div class="mb-3">
     <label for="categories" class="form-label">Categories</label>
-    <select class="form-select" multiple aria-label="multiple select" name="categories" id="categories">
-      <option selected>Open this select menu</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+    <select
+      class="form-select"
+      multiple
+      aria-label="multiple select"
+      name="categories"
+      id="categories"
+    >
+      <% categories.forEach(category => { %>
+      <option value="<%= category.id %>"><%= category.name %></option>
+      <% }) %>
     </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="tags" class="form-label">Tags</label>
+    <input
+      type="text"
+      class="form-control"
+      id="tags"
+      name="tags"
+      value="<% if(photo) { %> <%= photo.title %> <% } %>"
+    />
+    <div id="tagsHelp" class="form-text">
+      Enter the tags seperated by commas.
+    </div>
   </div>
 
   <button type="submit" class="btn btn-primary">Save</button>
