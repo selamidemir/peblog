@@ -1,55 +1,110 @@
+const fs = require("fs");
+const { validationResult } = require("express-validator");
+const { default: slugify } = require("slugify");
 const Photo = require("../models/Photo");
 const Category = require("../models/Category");
 const Tag = require("../models/Tag");
 
 /***** Photos  *****/
 exports.listPhotos = async (req, res) => {
-  const photos = await Photo.find({}).sort({ createdAd: "desc" }).populate('categories').populate('tags');
-  const data = photos.map((photo) => [
-    photo.title,
-    photo.categories,
-    photo.tags
-  ]);
-  res.status(200).render("admin/photos", { 
-    pageName: "admin-photos", 
+  const photos = await Photo.find({})
+    .sort({ createdAd: "desc" })
+    .populate("category")
+    .populate("tags");
+  const data = photos.map((photo) => [photo.title, photo.category, photo.tags]);
+  res.status(200).render("admin/photos", {
+    pageName: "admin-photos",
     data: JSON.stringify(data),
-    error: null, });
+    error: null,
+  });
 };
 
 exports.addPhotoForm = async (req, res) => {
   try {
     const categories = await Category.find({});
-    res.status(200).render("admin/photo_add", { 
+    res.status(200).render("admin/photo_add", {
       pageName: "admin-photo-add",
       photo: null,
       categories,
-      error: null
+      error: null,
     });
   } catch (err) {
     res.status(400).redirect("/admin/photos");
   }
-
-}
-
+};
 
 exports.createPhoto = async (req, res) => {
   const errors = validationResult(req);
+  const uploadDir = "public/upload";
+
+  // yükleme yapılacak klasör var mı?
+  try {
+    if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+  } catch (error) {
+    const categories = await Category.find({});
+    res.status(200).render("admin/photo_add", {
+      pageName: "admin-photo-add",
+      photo: null,
+      categories,
+      error: "Some things went wrong.",
+    });
+  }
+
+  // Girilen form bilgilerinde hata var mı?
   if (errors.isEmpty()) {
     try {
+      const uploadFileArr = req.files.image.name.split(".");
+      const uploadPath = process.cwd() + "/" + uploadDir + "/" + slugify(uploadFileArr[0], {
+        lower: true,
+        strict: true
+      }) + "." + uploadFileArr[1];
+      
+      console.log(uploadPath)
+      req.files.image.mv(uploadPath, async (err) => {
+        if (err) {
+          const categories = await Category.find({});
+          res.status(200).render("admin/photo_add", {
+            pageName: "admin-photo-add",
+            photo: null,
+            categories,
+            error: "Some things went wrong.",
+          });
+        }
+      });
+
+      const stringTagsArr = req.body.tags.split(",");
+      const tags = await Promise.all(stringTagsArr.map(async item => {
+        const tagOne = await Tag.findOne({name: item});
+        if(tagOne) return tagOne;
+        else return await Tag.create({name: item})
+      }));
+
       const photoInfo = {
         title: req.body.title,
         description: req.body.description,
-        file: req.body.file,
-        categories: req.body.categories,
-        tags: req.body.tags,
+        file: req.files.image.name,
+        category: req.body.category,
+        tags
       };
-      const photo = await Photo.create(photoInfo);
-      res.status(201).send(photo);
+      await Photo.create(photoInfo);
+      res.status(201).redirect("/admin/photos");
     } catch (err) {
-      res.send({ err });
+      const categories = await Category.find({});
+      res.status(200).render("admin/photo_add", {
+        pageName: "admin-photo-add",
+        photo: null,
+        categories,
+        error: "Some things went wrong.",
+      });
     }
   } else {
-    res.send({ body: req.body, errors });
+    const categories = await Category.find({});
+    res.status(200).render("admin/photo_add", {
+      pageName: "admin-photo-add",
+      photo: null,
+      categories,
+      error: errors,
+    });
   }
 };
 

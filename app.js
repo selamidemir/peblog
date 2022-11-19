@@ -1,9 +1,10 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-const methodOverride = require('method-override');
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const methodOverride = require("method-override");
+const fileUpload = require("express-fileupload");
 
 /*****  Routes ******/
 const pageRoutes = require("./routes/pageRoutes");
@@ -32,36 +33,39 @@ global.userIN = null;
 app.set("view engine", "ejs");
 
 /***** Middleware  *****/
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(fileUpload());
 app.use(
   // session aç
   session({
     secret: process.env.APP_SECTION_SECRET,
     resave: false,
     saveUninitialized: true,
-    store: MongoStore.create({ 
+    store: MongoStore.create({
       mongoUrl: process.env.APP_MONGODB_TEST_URL,
-      dbName: "db-peblog"
+      dbName: "db-peblog",
     }),
   })
 );
 // middleware to make 'user' available to all templates
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.user = req.session.userID;
   next();
 });
 
 app.use(express.static("public"));
-app.use(methodOverride('_method', {
-  methods: ['POST', 'GET']
-}));
+app.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"],
+  })
+);
 
 /* Her sayfa isteğinde bir kullanıcı giriş varsa
 kullanıcı ID değerini global userIN değişkenine ata. */
-app.use('*', (req, res, next) => {
+app.use("*", (req, res, next) => {
   userIN = req.session.userID;
-  next(); 
+  next();
 });
 
 /***** Route Ayarlari  *****/

@@ -24,12 +24,10 @@ const PhotoSchema = Schema({
     // unique: true,
     trim: true,
   },
-  categories: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
-    },
-  ],
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+  },
   tags: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -51,6 +49,7 @@ PhotoSchema.pre("validate", function (next) {
     lower: true,
     strict: true,
   });
+  
   const file = this.file.split(".");
   const fileName = slugify(file[0], {
     lower: true,

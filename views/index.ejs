@@ -34,13 +34,13 @@ include('./partials/page_header.ejs') %>
         <% photos && photos.forEach(photo => { %>
         <div class="col-xl-3 col-lg-4 col-md-6">
           <div class="gallery-item h-100">
-            <img src="<%= photo.mediumImage %>" class="img-fluid" alt="" />
+            <img src="/upload/<%= photo.file %>" class="img-fluid" alt="<%= photo.title %>" />
             <div
               class="gallery-links d-flex align-items-center justify-content-center"
             >
               <a
-                href="<%= photo.image %>"
-                title="Gallery 1"
+                href="/upload/<%= photo.file %>"
+                title="<%= photo.title %>"
                 class="glightbox preview-link"
                 ><i class="bi bi-arrows-angle-expand"></i
               ></a>

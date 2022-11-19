@@ -9,28 +9,21 @@ const adminController = require("../controllers/adminController");
 /***** Photos *****/
 router.route("/photos").get(adminController.listPhotos);
 router.route("/photos/add").get(adminController.addPhotoForm);
-router
-  .route("/photos")
-  .post(
-    [
-      body("title")
-        .trim()
-        .not()
-        .isEmpty()
-        .withMessage("The title can not be empty"),
-      body("description").trim(),
-      body("file")
-        .trim()
-        .not()
-        .isEmpty()
-        .withMessage("Select a photo file please!"),
-      body("categories")
-        .not()
-        .isEmpty()
-        .withMessage("Select at least a category"),
-    ],
-    adminController.createPhoto
-  );
+router.route("/photos").post(
+  [
+    body("title")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("The title can not be empty"),
+    body("description").trim(),
+    body("category")
+      .not()
+      .isEmpty()
+      .withMessage("Select a category"),
+  ],
+  adminController.createPhoto
+);
 
 /***** Categories *****/
 router.route("/categories").get(adminController.listCategories);

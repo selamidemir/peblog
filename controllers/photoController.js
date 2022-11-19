@@ -2,7 +2,7 @@ const fs = require("fs");
 const { validationResult } = require("express-validator");
 const Photo = require("../models/Photo");
 
-exports.getPhotos = (req, res) => {
+exports.getPhotos = async (req, res) => {
   // Tüm resimleri listelemek için kullanılacak
   // İsime göre
   // Kategoriye göre
@@ -10,7 +10,11 @@ exports.getPhotos = (req, res) => {
   // Kullanıcıya göre
   // Filtre işlemi yapılmalı
   // Ayrıca sıralama işlemi de olmalı
-  res.status(200).send("PHOTOS PAGE");
+  const photos = await Photo.find({}).sort("-atCreated").limit(20);
+  res.status(200).render("index", {
+    pageName: "home",
+    photos
+  });
 };
 
 exports.getPhotoById = async (req, res) => {};
