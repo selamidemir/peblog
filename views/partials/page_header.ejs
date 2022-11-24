@@ -24,8 +24,9 @@
               Galeries
             </a>
             <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/categories/all-photos">All Photos</a></li>
             <% if(categories) { categories.forEach(category =>  {%>
-              <li><a class="dropdown-item" href="#"><%= category.name %></a></li>
+              <li><a class="dropdown-item" href="/categories/<%= category.slug %>"><%= category.name %></a></li>
               <% })} %>
             </ul>
           </li>
@@ -34,9 +35,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/contact">Contact</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/services">Services</a>
           </li>
         </ul>
 

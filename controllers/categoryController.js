@@ -1,66 +1,19 @@
 const { validationResult } = require("express-validator");
 const Category = require("../models/Category");
+const Photo = require("../models/Photo");
 
-exports.getCategories = async (req, res) => {
-    try {
-        const categories = await Category.find({});
-        res.status(200).send(categories)
-    } catch (err) {
-        res.send(err)
-    }
-};
-
-exports.getCategoryById = (req, res) => {};
-
-exports.createCategory = async (req, res) => {
-  const errors = validationResult(req);
-  if (errors.isEmpty()) {
-    try {
-      const categoryInfo = {
-        name: req.body.name,
-        description: req.body.description,
-      };
-      const category = await Category.create(categoryInfo, { new: true});
-      res.status(201).send(category);
-    } catch (err) {
-      res.status(200).send("The category was not created.");
-    }
-  } else
-    res.send({
-      body: req.body,
-      errors,
+exports.getCategoryPhotos = async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    const filter = slug === "all-photos" ? "" : {slug};
+    const category = await Category.findOne(filter);
+    const photos = await Photo.find({ category: category }).sort("-createdAt");
+    res.status(200).render("categories", {
+      pageName: "photos-in-category",
+      photos,
+      error: null,
     });
+  } catch (err) {
+    res.status(400).redirect("/");
+  }
 };
-
-exports.updateCategoryById = async (req, res) => {
-  const errors = validationResult(req);
-  if (errors.isEmpty()) {
-    try {
-      const categoryInfo = {
-        name: req.body.name,
-        description: req.body.description,
-      };
-      // const category = await Category.findById(req.param.id);
-      // category.name = req.body.name;
-      // category.description = req.body.description;
-      // await category.save();
-      const category = await Category.findByIdAndUpdate(
-        req.params.id,
-        categoryInfo,
-        { new: true }
-      );
-      res.status(200).send(category);
-    } catch (err) {
-      res.send({
-        body: req.body,
-        errors,
-      });
-    }
-  } else
-    res.send({
-      body: req.body,
-      errors,
-    });
-};
-
-exports.deleteCategoryById = (req, res) => {};

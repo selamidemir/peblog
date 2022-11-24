@@ -55,6 +55,10 @@ h6 {
   height: 200px;
 }
 
+.header-social-links a {
+  padding-left: 9px;
+}
+
 
 /* Admin Area */
 .admin-photos-image {
