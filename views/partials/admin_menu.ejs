@@ -1,19 +1,36 @@
 <% if(user) { %>
-<div
-  class="d-flex align-items-center mt-2 border-top bg-secondary border-bottom border-light"
->
-  <div
-    class="container-fluid d-flex align-items-center justify-content-between"
-  >
-    <span>ADMIN PANEL</span>
-    <nav id="admin-nav" class="navbar">
-      <ul>
-        <li><a href="/admin/photos">PHOTOS</a></li>
-        <li><a href="/admin/categories">CATEGORIES</a></li>
-        <li><a href="/admin/tags">TAGS</a></li>
-        <li><a href="/logout">LOGOUT</a></li>
-      </ul>
-    </nav>
-  </div>
+<div class="bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light container mt-0 mb-0 pt-0 pb-0 mb-3">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/#">ADMIN PANEL</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarText"
+        aria-controls="navbarText"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="adminNavbarText">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 navbar-text">
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/photos">PHOTOS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/categories">CATEGORIES</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/tags">TAGS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">LOGOUT</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </div>
 <% } %>

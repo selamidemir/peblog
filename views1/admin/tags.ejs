@@ -32,10 +32,7 @@ include('../partials/page_header.ejs') %>
     const data = JSON.parse(`<%- tags %>`);
     new gridjs.Grid({
       columns: [
-        {
-          name: "Tag",
-          width: "30%",
-        },
+        "Tag",
         {
           name: "Photos",
           formatter: (cell) =>
@@ -48,7 +45,6 @@ include('../partials/page_header.ejs') %>
         },
         {
           name: "Delete",
-          width: "100%",
           formatter: (cell) =>
             gridjs.html(
               `<a href="/admin/tags/${cell}?_method=DELETE" onClick="return confirm('Are you sure?')">Delete</a>`

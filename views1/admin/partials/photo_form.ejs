@@ -1,0 +1,67 @@
+<form <% if(photo) { %>
+  action="/admin/photos/<%= photo.slug %>?_method=PUT" <% } %> <% if (!photo) {
+  %> action="/admin/photos" encType="multipart/form-data" <% } %> method="POST" id="photo-edit-form" >
+  <div class="mb-3">
+    <label for="name" class="form-label">Title</label>
+    <input
+      type="text"
+      class="form-control"
+      id="title"
+      name="title"
+      value="<% if(photo) { %> <%= photo.title %> <% } %>"
+    />
+    <div id="titleHelp" class="form-text">Enter the photo title.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="image" class="form-label">Title</label>
+    <input type="file" class="form-control" id="image" name="image" />
+    <div id="fileHelp" class="form-text">Select the photo.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea
+      type="text"
+      class="form-control"
+      id="description"
+      name="description"
+      class="category-description"
+    >
+      <% if(photo) {%> <%= photo.description %> <% }%></textarea
+    >
+    <div id="descpritionHelp" class="form-text">
+      Enter the photo description.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="category" class="form-label">Categories</label>
+    <select
+      class="form-select"
+      aria-label="multiple select"
+      name="category"
+      id="category"
+    >
+      <% categories.forEach(category => { %>
+      <option value="<%= category.id %>"><%= category.name %></option>
+      <% }) %>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="tags" class="form-label">Tags</label>
+    <input
+      type="text"
+      class="form-control"
+      id="tags"
+      name="tags"
+      value="<% if(photo) { %> <%= photo.title %> <% } %>"
+    />
+    <div id="tagsHelp" class="form-text">
+      Enter the tags seperated by commas.
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>

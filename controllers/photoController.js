@@ -53,13 +53,3 @@ exports.updatePhotoBySlug = async (req, res) => {
   }
 };
 
-exports.deletePhotoById = async (req, res) => {
-  console.log("burada");
-  try {
-    const id = req.query.id;
-    const result = await Photo.findByIdAndRemove(id);
-    res.status(200).redirect("/photos");
-  } catch (err) {
-    res.status(400).redirect("/photos");
-  }
-};

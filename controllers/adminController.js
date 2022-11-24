@@ -7,16 +7,26 @@ const Tag = require("../models/Tag");
 
 /***** Photos  *****/
 exports.listPhotos = async (req, res) => {
-  const photos = await Photo.find({})
-    .sort({ createdAd: "desc" })
-    .populate("category")
-    .populate("tags");
-  const data = photos.map((photo) => [photo.title, photo.category, photo.tags]);
-  res.status(200).render("admin/photos", {
-    pageName: "admin-photos",
-    data: JSON.stringify(data),
-    error: null,
-  });
+  try {
+    const photos = await Photo.find({})
+      .sort({ createdAd: "desc" })
+      .populate("category")
+      .populate("tags");
+    const data = photos.map((photo) => [
+      photo.file,
+      photo.title,
+      photo.category,
+      photo.slug,
+      photo.slug,
+    ]);
+    res.status(200).render("admin/photos", {
+      pageName: "admin-photos",
+      data: JSON.stringify(data),
+      error: null,
+    });
+  } catch (err) {
+    res.status(400).redirect("/admin");
+  }
 };
 
 exports.addPhotoForm = async (req, res) => {
@@ -54,12 +64,19 @@ exports.createPhoto = async (req, res) => {
   if (errors.isEmpty()) {
     try {
       const uploadFileArr = req.files.image.name.split(".");
-      const uploadPath = process.cwd() + "/" + uploadDir + "/" + slugify(uploadFileArr[0], {
-        lower: true,
-        strict: true
-      }) + "." + uploadFileArr[1];
-      
-      console.log(uploadPath)
+      const uploadPath =
+        process.cwd() +
+        "/" +
+        uploadDir +
+        "/" +
+        slugify(uploadFileArr[0], {
+          lower: true,
+          strict: true,
+        }) +
+        "." +
+        uploadFileArr[1];
+
+      console.log(uploadPath);
       req.files.image.mv(uploadPath, async (err) => {
         if (err) {
           const categories = await Category.find({});
@@ -73,18 +90,20 @@ exports.createPhoto = async (req, res) => {
       });
 
       const stringTagsArr = req.body.tags.split(",");
-      const tags = await Promise.all(stringTagsArr.map(async item => {
-        const tagOne = await Tag.findOne({name: item});
-        if(tagOne) return tagOne;
-        else return await Tag.create({name: item})
-      }));
+      const tags = await Promise.all(
+        stringTagsArr.map(async (item) => {
+          const tagOne = await Tag.findOne({ name: item });
+          if (tagOne) return tagOne;
+          else return await Tag.create({ name: item });
+        })
+      );
 
       const photoInfo = {
         title: req.body.title,
         description: req.body.description,
         file: req.files.image.name,
         category: req.body.category,
-        tags
+        tags,
       };
       await Photo.create(photoInfo);
       res.status(201).redirect("/admin/photos");
@@ -108,6 +127,21 @@ exports.createPhoto = async (req, res) => {
   }
 };
 
+exports.deletePhoto = async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    const photo = await Photo.findOne({ slug: slug });
+    const filePath = process.cwd() + "/public/upload/" + photo.file;
+    fs.unlink(filePath, async (err) => {
+      console.log(err)
+      if (err) return res.status(400).redirect("/admin/photos");
+      await Photo.findOneAndRemove({ slug: slug });
+      res.status(200).redirect("/admin/photos");
+    });
+  } catch (error) {
+    res.send("hata var");
+  }
+};
 /***** Categories *****/
 exports.listCategories = async (req, res) => {
   const categories = await Category.find({});
@@ -120,7 +154,7 @@ exports.listCategories = async (req, res) => {
   ]);
   res.status(200).render("admin/categories", {
     pageName: "admin-categories",
-    categories: JSON.stringify(data),
+    data: JSON.stringify(data),
     error: null,
   });
 };

@@ -14,6 +14,7 @@ const tagRoutes = require("./routes/tagRoutes");
 const userRoutes = require("./routes/userRoutes");
 
 const adminRoutes = require("./routes/adminRoutes");
+const Category = require("./models/Category");
 
 dotenv.config();
 
@@ -62,9 +63,13 @@ app.use(
 );
 
 /* Her sayfa isteğinde bir kullanıcı giriş varsa
-kullanıcı ID değerini global userIN değişkenine ata. */
-app.use("*", (req, res, next) => {
+kullanıcı ID değerini global userIN değişkenine ata.
+Menü için category isimlerini res.locals.categories
+değişkenine kaydet */
+app.use("*", async (req, res, next) => {
   userIN = req.session.userID;
+  const categories = await Category.find({});
+  res.locals.categories = categories;
   next();
 });
 

@@ -24,6 +24,7 @@ router.route("/photos").post(
   ],
   adminController.createPhoto
 );
+router.route("/photos/:slug").delete(adminController.deletePhoto)
 
 /***** Categories *****/
 router.route("/categories").get(adminController.listCategories);
