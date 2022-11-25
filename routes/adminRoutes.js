@@ -5,11 +5,13 @@ const Category = require("../models/Category");
 const router = express.Router();
 
 const adminController = require("../controllers/adminController");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 /***** Photos *****/
-router.route("/photos").get(adminController.listPhotos);
-router.route("/photos/add").get(adminController.addPhotoForm);
+router.route("/photos").get(authMiddleware, adminController.listPhotos);
+router.route("/photos/add").get(authMiddleware, adminController.addPhotoForm);
 router.route("/photos").post(
+  authMiddleware, 
   [
     body("title")
       .trim()
@@ -24,12 +26,13 @@ router.route("/photos").post(
   ],
   adminController.createPhoto
 );
-router.route("/photos/:slug").delete(adminController.deletePhoto)
+router.route("/photos/:slug").delete(authMiddleware, adminController.deletePhoto)
 
 /***** Categories *****/
-router.route("/categories").get(adminController.listCategories);
-router.route("/categories/add").get(adminController.addCategoryForm);
+router.route("/categories").get(authMiddleware, adminController.listCategories);
+router.route("/categories/add").get(authMiddleware, adminController.addCategoryForm);
 router.route("/categories/add").post(
+  authMiddleware, 
   [
     body("name")
       .trim()
@@ -44,8 +47,9 @@ router.route("/categories/add").post(
   ],
   adminController.createCategory
 );
-router.route("/categories/edit/:slug").get(adminController.editCategoryForm);
+router.route("/categories/edit/:slug").get(authMiddleware, adminController.editCategoryForm);
 router.route("/categories/edit/:slug").put(
+  authMiddleware, 
   [
     body("name")
       .trim()
@@ -60,19 +64,20 @@ router.route("/categories/edit/:slug").put(
   ],
   adminController.updateCategory
 );
-router.route("/categories/:slug").delete(adminController.deleteCategory);
+router.route("/categories/:slug").delete(authMiddleware, adminController.deleteCategory);
 
 /***** Tags *****/
-router.route("/tags").get(adminController.listTags);
-router.route("/tags/edit/:slug").get(adminController.tagEditForm);
-router.route("/tags/:slug").put(adminController.updateTag);
-router.route("/tags/add").get(adminController.tagAddForm);
+router.route("/tags").get(authMiddleware, adminController.listTags);
+router.route("/tags/edit/:slug").get(authMiddleware, adminController.tagEditForm);
+router.route("/tags/:slug").put(authMiddleware, adminController.updateTag);
+router.route("/tags/add").get(authMiddleware, adminController.tagAddForm);
 router
   .route("/tags/")
   .post(
+    authMiddleware, 
     [body("name").trim().not().isEmpty().withMessage("Enter tag name please")],
     adminController.createTag
   );
-router.route("/tags/:slug").delete(adminController.deleteTag);
+router.route("/tags/:slug").delete(authMiddleware, adminController.deleteTag);
 
 module.exports = router;

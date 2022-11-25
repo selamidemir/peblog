@@ -8,7 +8,13 @@ const Tag = require("../models/Tag");
 /***** Photos  *****/
 exports.listPhotos = async (req, res) => {
   try {
-    const photos = await Photo.find({})
+    const tag = await Tag.findOne({slug: req.query.tag});
+    const category = await Category.findOne({slug: req.query.category});
+    const filter = {};
+    if (tag) filter.tags = {$in: tag._id};
+    if (category) filter.category = category;
+    console.log(filter)
+    const photos = await Photo.find(filter)
       .sort({ createdAd: "desc" })
       .populate("category")
       .populate("tags");
@@ -133,7 +139,7 @@ exports.deletePhoto = async (req, res) => {
     const photo = await Photo.findOne({ slug: slug });
     const filePath = process.cwd() + "/public/upload/" + photo.file;
     fs.unlink(filePath, async (err) => {
-      console.log(err)
+      console.log(err);
       if (err) return res.status(400).redirect("/admin/photos");
       await Photo.findOneAndRemove({ slug: slug });
       res.status(200).redirect("/admin/photos");

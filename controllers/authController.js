@@ -14,20 +14,15 @@ exports.createUser = async (req, res) => {
         userName: req.body.username,
         email: req.body.email,
         password: req.body.password,
-        role: req.body.role,
       };
       const user = await User.create(userInfo);
-      res.status(201).send(user);
+      res.status(201).render("login", { pageName: "login", errors: "" });
     } catch (err) {
-      res.status().send("The user was not created");
+      res.status(400).render("login", { pageName: "login", errors: err });
     }
-  } else res.status(200).send({ body: req.body, errors });
+  } else {
+    res.status(400).render("login", { pageName: "login", errors });
+  }
 };
 
-exports.activateUserById = (req, res) => {};
-
 exports.updateUserById = (req, res) => {};
-
-exports.deleteUserById = (req, res) => {};
-
-

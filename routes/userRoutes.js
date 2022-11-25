@@ -40,19 +40,17 @@ router.route("/").post(
           throw new Error("Password confirmation does not match password");
         return true;
       }),
-    body("role")
-      .not()
-      .isEmpty()
-      .custom((value, { req }) => {
-        const result = Object.values(UserRoles).includes(value);
-        if (!result) throw new Error("Select user role please");
-        return true;
-      }),
+    // body("role")
+    //   .not()
+    //   .isEmpty()
+    //   .custom((value, { req }) => {
+    //     const result = Object.values(UserRoles).includes(value);
+    //     if (!result) throw new Error("Select user role please");
+    //     return true;
+    //   }),
   ],
   userController.createUser
 );
-router.route("/:d").put(userController.updateUserById);
-// router.route("/:id").delete(userController.deleteUserById);
-// router.route("/:id").get(userController.activateUserById);
+router.route("/:id").put(userController.updateUserById);
 
 module.exports = router;

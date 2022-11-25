@@ -56,9 +56,16 @@ h6 {
 }
 
 .header-social-links a {
-  padding-left: 9px;
+  padding-left: 15px;
 }
 
+#main {
+  min-height: 55vh;
+}
+
+.footer {
+  border-top: 1px gray solid;
+}
 
 /* Admin Area */
 .admin-photos-image {

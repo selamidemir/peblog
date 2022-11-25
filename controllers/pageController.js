@@ -19,8 +19,13 @@ exports.getServicesPage = (req, res) => {
   res.status(200).render("services", { pageName: "services" });
 };
 
-exports.getLoginForm = (req, res) => {
-  if (req.session.userID) res.status(200).redirect("/");
+exports.getLoginForm = async (req, res) => {
+  const user = await User.find({});
+  if (user)
+    res
+      .status(200)
+      .render("register", { pageName: "register-form", error: "" });
+  else if (req.session.userID) res.status(200).redirect("/");
   else res.status(200).render("login", { pageName: "loginForm", error: "" });
 };
 
@@ -47,5 +52,5 @@ exports.loginUser = async (req, res) => {
 
 exports.logoutUser = (req, res) => {
   req.session.userID = null;
-  res.status(200).redirect("/")
+  res.status(200).redirect("/");
 };

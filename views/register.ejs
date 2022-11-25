@@ -7,15 +7,28 @@ include('./partials/page_header.ejs') %>
     <div class="container position-relative">
       <div class="row d-flex justify-content-center">
         <div class="col-lg-6 text-center bg-gradient p-3 rounded">
-          <h2>Login</h2>
+          <h2>Register</h2>
 
           <div class="row justify-content-center mt-4">
             <div class="col-lg-7">
               <form
-                action="/login"
+                action="/users"
                 method="POST"
                 role="form"
               >
+              <div class="row">
+                <div class="form-group mt-3 mt-md-0">
+                  <label for="name">Full Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="name"
+                    id="name"
+                    placeholder="Your Full Name"
+                    required
+                  />
+                </div>
+              </div>
                 <div class="row">
                   <div class="form-group mt-3 mt-md-0">
                     <label for="email">Email</label>
@@ -25,6 +38,19 @@ include('./partials/page_header.ejs') %>
                       name="email"
                       id="email"
                       placeholder="Your Email"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group mt-3 mt-md-0">
+                    <label for="username">User Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="username"
+                      id="username"
+                      placeholder="Your User Name"
                       required
                     />
                   </div>
@@ -40,12 +66,24 @@ include('./partials/page_header.ejs') %>
                     required
                   />
                 </div>
+
+                <div class="form-group mt-3">
+                  <label for="password">Password Confirmation</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="password-confirm"
+                    id="password-confirm"
+                    placeholder="Password Confirmation"
+                    required
+                  />
+                </div>
                 
                 <div class="my-3">
-                  <div class="error-message"><% if(errors) errors %></div>
+                  <div class="error-message"><% if(error) error %></div>
                 </div>
                 <div class="text-center">
-                  <button class="cta-btn" type="submit">Login</button>
+                  <button class="cta-btn" type="submit">Register</button>
                 </div>
               </form>
             </div>
@@ -57,15 +95,6 @@ include('./partials/page_header.ejs') %>
   </div>
   <!-- End Page Header -->
 
-  <!--section class="sample-page">
-      <div class="container" data-aos="fade-up">
-
-        <p>
-          You can duplicate this sample page and create any number of inner pages you like!
-        </p>
-
-      </div>
-    </section-->
 </main>
 <!-- End #main -->
 
