@@ -25,6 +25,7 @@ mongoose
   .connect(process.env.APP_MONGODB_FULL_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    dbName: "db-peblog"
   })
   .catch((err) => console.log("HATA: MongoBD bağlantısı yapılamadı: ", err));
 /**** Global Değişkenler  ****/

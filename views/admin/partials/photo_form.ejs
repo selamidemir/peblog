@@ -50,7 +50,7 @@
     >
       <% categories.forEach(category => { %>
       <option value="<%= category.id %>" 
-        <% if(photo.category._id.toString() === category._id.toString()) { %> selected <% } %> 
+        <% if(photo && photo.category._id.toString() === category._id.toString()) { %> selected <% } %> 
         ><%= category.name %></option>
       <% }) %>
     </select>
