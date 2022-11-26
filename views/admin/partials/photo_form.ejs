@@ -13,12 +13,18 @@
     <div id="titleHelp" class="form-text">Enter the photo title.</div>
   </div>
 
+  <% if(!photo) { %>
   <div class="mb-3">
     <label for="image" class="form-label">Title</label>
     <input type="file" class="form-control" id="image" name="image" />
     <div id="fileHelp" class="form-text">Select the photo.</div>
   </div>
-
+  <% } else { %>
+  <div class="mb-3">
+    <img src="/upload/<%= photo.file %>" width="300" alt="<%= photo.title %>" />
+  </div>
+  <% } %>
+  
   <div class="mb-3">
     <label for="description" class="form-label">Description</label>
     <textarea
@@ -27,8 +33,7 @@
       id="description"
       name="description"
       class="category-description"
-    >
-      <% if(photo) {%> <%= photo.description %> <% }%></textarea
+    ><% if(photo) {%> <%= photo.description %> <% }%></textarea
     >
     <div id="descpritionHelp" class="form-text">
       Enter the photo description.
@@ -44,7 +49,9 @@
       id="category"
     >
       <% categories.forEach(category => { %>
-      <option value="<%= category.id %>"><%= category.name %></option>
+      <option value="<%= category.id %>" 
+        <% if(photo.category._id.toString() === category._id.toString()) { %> selected <% } %> 
+        ><%= category.name %></option>
       <% }) %>
     </select>
   </div>
@@ -56,7 +63,7 @@
       class="form-control"
       id="tags"
       name="tags"
-      value="<% if(photo) { %> <%= photo.title %> <% } %>"
+      value="<% if(photo) { %> <%= tags %> <%  } %>"
     />
     <div id="tagsHelp" class="form-text">
       Enter the tags seperated by commas.

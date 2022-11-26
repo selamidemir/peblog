@@ -8,12 +8,11 @@ const Tag = require("../models/Tag");
 /***** Photos  *****/
 exports.listPhotos = async (req, res) => {
   try {
-    const tag = await Tag.findOne({slug: req.query.tag});
-    const category = await Category.findOne({slug: req.query.category});
+    const tag = await Tag.findOne({ slug: req.query.tag });
+    const category = await Category.findOne({ slug: req.query.category });
     const filter = {};
-    if (tag) filter.tags = {$in: tag._id};
+    if (tag) filter.tags = { $in: tag._id };
     if (category) filter.category = category;
-    console.log(filter)
     const photos = await Photo.find(filter)
       .sort({ createdAd: "desc" })
       .populate("category")
@@ -82,7 +81,6 @@ exports.createPhoto = async (req, res) => {
         "." +
         uploadFileArr[1];
 
-      console.log(uploadPath);
       req.files.image.mv(uploadPath, async (err) => {
         if (err) {
           const categories = await Category.find({});
@@ -133,13 +131,58 @@ exports.createPhoto = async (req, res) => {
   }
 };
 
+exports.editPhotoBySlug = async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    const photo = await Photo.findOne({ slug: slug }).populate("tags");
+    const categories = await Category.find({});
+    const tags = photo.tags.map((tag) => tag.name);
+    if (photo)
+      res.status(200).render("admin/photo_edit", {
+        pageName: "photo-edit",
+        photo,
+        categories,
+        tags: tags.toString(","),
+        error: "",
+      });
+    else res.status(400).redirect("/admin/photos");
+  } catch (err) {
+    res.status(400).redirect("/admin/photos");
+  }
+};
+
+exports.updatePhotoBySlug = async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    const photo = await Photo.findOne({ slug: slug });
+    const category = await Category.findById(req.body.category);
+
+    const stringTagsArr = req.body.tags.split(",");
+    const tags = await Promise.all(
+      stringTagsArr.map(async (item) => {
+        const tagOne = await Tag.findOne({ name: item });
+        if (tagOne) return tagOne;
+        else return await Tag.create({ name: item });
+      })
+    );
+
+    photo.title = req.body.title;
+    photo.description = req.body.description;
+    photo.category = category;
+    photo.tags = tags;
+    photo.save();
+    res.status(200).redirect("/admin/photos");
+  } catch (err) {
+    res.status(400).redirect("/admin/photos");
+  }
+};
+
 exports.deletePhoto = async (req, res) => {
   try {
     const slug = req.params.slug;
     const photo = await Photo.findOne({ slug: slug });
     const filePath = process.cwd() + "/public/upload/" + photo.file;
     fs.unlink(filePath, async (err) => {
-      console.log(err);
       if (err) return res.status(400).redirect("/admin/photos");
       await Photo.findOneAndRemove({ slug: slug });
       res.status(200).redirect("/admin/photos");
