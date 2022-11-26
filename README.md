@@ -26,16 +26,13 @@ Uygulama ve paketleri kullanılmıştır.
 Repoyu bilgisayarınıza indirebilir veya forklayarak kullanabilirsiniz. Test etmek için dosyaları proje klasörünüze indirdikten sonra komut satırını açın ve terminalden proje klasörüne gelin sonrasında **npm init** komutunu vererek gerekli node modüllerinin kurulmasını sağlayın. Sonrasında
 
 ```
-PORT=5000;
-APP_MONGODB_URL=
-APP_MONGODB_USER=
-APP_MONGODB_DB_NAME=
-APP_MONGODB_PASSWORD=
-APP_MONGODB_TEST_URL=
+APP_MONGODB_FULL_URL=
 APP_SECTION_SECRET=
 ```
 
-**.env** dosyası üzerinde bulunan yukarıdaki bilgileri doğru olarak giriniz. Burada **APP_SECTION_SECRET** güvenlik kelimesidir ve karışık harf ve rakamlardan oluştuan en az 16 rakamlı bir metin dizesidir.
+**.env** dosyası üzerinde bulunan yukarıdaki bilgileri doğru olarak giriniz. Burada **APP_SECTION_SECRET** güvenlik kelimesidir ve karışık harf ve rakamlardan oluştuan en az 16 rakamlı bir metin dizesidir. 
+
+Mongodb bağlantısı için ise **APP_MONGODB_FULL_URL** bilgisini tam olarak girmeniz gerekiyor.
 
 Gerekli bilgileri girdikten sonra komut satırından ( proje dizinine geldikten sonra) ```node app``` komutunu vererek uygulamayı başlatabilirsiniz.
 
@@ -43,6 +40,18 @@ Gerekli bilgileri girdikten sonra komut satırından ( proje dizinine geldikten 
 
 Şuan için sadece tek bir üye kayıtı seçeneği mevcut. Bunun için **http://localhost:5000/login** adresine giriş yapmanız yeterli olacaktır. Veritabanından kayıtlı üye yoksa, kayıt formunu ve eğer kayıtlı üye varsa üye giriş ekranı görüntülenecektir. Eğer üye girişi yapılmış ise anasayfaya yönlendirme yapılacaktır.
 
+## Ekran Görüntüleri
 
+![Anasayfa](home.png)
+Anasayfa
+
+![Lightbox](lightbox.png)
+Lightbox
+
+![Admin Fotoğraflar](admin-photos.png)
+Admin Photo Page
+
+![Admin Kategoriler](admin-categories.png)
+Admin Kategori Sayfası
 
 A personel photo blog. It was created with Express JS. MongoDB is for the database.
