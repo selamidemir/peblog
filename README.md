@@ -2,6 +2,9 @@
 
 PeBlog fotoğraf paylaşımında bulunmak isteyenler için geliştirilmiş bir fotoğraf blog uygulamasıdır. Şuan için sadece bir kişinin fotoğraf paylaşmasına izin verir. Kategori ve etiket desteği vardır. Fotoğraf, kategori, etiket ekleyip, silinebilir veya düzenlenebilir.
 
+![Anasayfa](home.png)
+Anasayfa
+
 ## Kullanılan Teknolojiler
 
 PeBlog geliştirilirken
@@ -42,8 +45,6 @@ Gerekli bilgileri girdikten sonra komut satırından ( proje dizinine geldikten 
 
 ## Ekran Görüntüleri
 
-![Anasayfa](home.png)
-Anasayfa
 
 ![Lightbox](lightbox.png)
 Lightbox
