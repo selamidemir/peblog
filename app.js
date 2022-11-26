@@ -22,7 +22,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 mongoose
-  .connect(process.env.APP_MONGODB_TEST_URL, {
+  .connect(process.env.APP_MONGODB_FULL_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -44,7 +44,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl: process.env.APP_MONGODB_TEST_URL,
+      mongoUrl: process.env.APP_MONGODB_FULL_URL,
       dbName: "db-peblog",
     }),
   })
